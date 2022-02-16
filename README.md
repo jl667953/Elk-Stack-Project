@@ -16,7 +16,7 @@ These files have been tested and used to generate a live ELK deployment on Azure
 - [Ansible Metricbeat Config file](https://github.com/jl667953/Elk-Stack-Project/blob/main/ansible/Metricbeat/metricbeat-config.yml)
 
 This document contains the following details:
-- Description of the Topologu
+- Description of the Topology
 - Access Policies
 - ELK Configuration
   - Beats in Use
@@ -26,56 +26,63 @@ This document contains the following details:
 
 ### Description of the Topology
 
-The main purpose of this network is to expose a load-balanced and monitored instance of DVWA, the D*mn Vulnerable Web Application.
+The main purpose of this network is to expose a load-balanced and monitored instance of DVWA, the Damn Vulnerable Web Application.
 
-Load balancing ensures that the application will be highly _____, in addition to restricting _____ to the network.
-- _TODO: What aspect of security do load balancers protect? What is the advantage of a jump box?_
+Load balancing ensures that the application will be highly _available_, in addition to restricting _access_ to the network.
 
-Integrating an ELK server allows users to easily monitor the vulnerable VMs for changes to the _____ and system _____.
-- _TODO: What does Filebeat watch for?_
+- Load balancers add additional layers of security. They protect against DDoS attacks by distributing traffic before it gets to the webserver and by requiring a username and password to protect against unauthorized access.
+- Adding a jump box to your network creates a funnels all admins to one point of access. This is another security feature. 
+
+Integrating an ELK server allows users to easily monitor the vulnerable VMs for changes to the _data_ and system _logs_.
+- _Filebeat monitors log files and locations. collects log events and forwards them to Elasticsearch using HTTP API or Logstash using TCP_.
 - _TODO: What does Metricbeat record?_
 
 The configuration details of each machine may be found below.
-_Note: Use the [Markdown Table Generator](http://www.tablesgenerator.com/markdown_tables) to add/remove values from the table_.
 
-| Name     | Function | IP Address | Operating System |
-|----------|----------|------------|------------------|
-| Jump Box | Gateway  | 10.0.0.1   | Linux            |
-| TODO     |          |            |                  |
-| TODO     |          |            |                  |
-| TODO     |          |            |                  |
+| Name                 | Function         | IP Address | Operating System |
+|----------------------|------------------|------------|------------------|
+| Jump Box Provisioner | Gateway          | 10.0.0.4   | Linux            |
+| Web1                 | Web Server       | 10.0.0.5   | Linux            |
+| Web2                 | Web Server       | 10.0.0.6   | Linux            |
+| Web3                 | Redundant Server | 10.0.0.8   | Linux            |
+| ELK                  | ELK Server       | 10.1.0.4   | Linux            |
 
 ### Access Policies
 
 The machines on the internal network are not exposed to the public Internet. 
 
-Only the _____ machine can accept connections from the Internet. Access to this machine is only allowed from the following IP addresses:
-- _TODO: Add whitelisted IP addresses_
+Only the _Jump Box__ machine can accept connections from the Internet. Access to this machine is only allowed from the following IP addresses:
+- _My Personal Workstation Public IP_
 
-Machines within the network can only be accessed by _____.
-- _TODO: Which machine did you allow to access your ELK VM? What was its IP address?_
+Machines within the network can only be accessed by the _Jump Box_. 
+
+- _Only the container located in the Jump Box Provisioner can access the ELk Server via SSH connection via the ELK Server private IP address: 10.1.0.4.  
 
 A summary of the access policies in place can be found in the table below.
 
-| Name     | Publicly Accessible | Allowed IP Addresses |
-|----------|---------------------|----------------------|
-| Jump Box | Yes/No              | 10.0.0.1 10.0.0.2    |
-|          |                     |                      |
-|          |                     |                      |
+| Name     | Publicly Accessible | Allowable IP Addresses          |
+|----------|---------------------|---------------------------------|
+| Jump Box | No                  | Personal Workstation Public IP  |
+| Web1     | No                  | JumpBox Private IP (10.0.0.4)   |
+| Web2     | No                  | JumpBox Private IP (10.0.0.4)   |
+| Web3     | No                  | JumpBox Private IP (10.0.0.4)   |
+| ELK      | No                  | Personal Workstation Private IP |
 
 ### Elk Configuration
 
-Ansible was used to automate configuration of the ELK machine. No configuration was performed manually, which is advantageous because...
-- _TODO: What is the main advantage of automating configuration with Ansible?_
+Ansible was used to automate configuration of the ELK machine. No configuration was performed manually, which is advantageous because _Ansible is able to deploy multiple apps without the need to write custome codes on each new server by using a playbook. 
 
 The playbook implements the following tasks:
-- _TODO: In 3-5 bullets, explain the steps of the ELK installation play. E.g., install Docker; download image; etc._
-- ...
-- ...
+
+- Installs docker.io
+- Installs pip3 (python3)
+- Installs the Docker python module
+- Increases virtual memory on the machine
+- Downloads and launches Docker. Configures ports for elasticsearch, logstash and kibana. 
 
 The following screenshot displays the result of running `docker ps` after successfully configuring the ELK instance.
 
-![TODO: Update the path with the name of your screenshot of docker ps output](Images/docker_ps_output.png)
+![https://github.com/jl667953/Elk-Stack-Project/blob/main/images/docker_ps.png](images/docker_ps.png)
 
 ### Target Machines & Beats
 This ELK server is configured to monitor the following machines:
