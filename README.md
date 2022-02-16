@@ -102,9 +102,11 @@ We have installed the following Beats on these machines:
 These Beats allow us to collect the following information from each machine:
 
 - Filebeat collects log data from your servers, monitors the log files, collects log events and then forwards them to a location of your choosing such as Elasticsearch or Logstash. 
+
 ![https://github.com/jl667953/Elk-Stack-Project/blob/main/images/filebeat.png](images/filebeat.png)
 
 - Metricbeat is installed on target servers and used to monitor their perform by collecting metric data such as system CPU, memory and load. 
+
 ![https://github.com/jl667953/Elk-Stack-Project/blob/main/images/metricbeat.png](images/metricbeat.png)
 
 ### Using the Playbook
